@@ -87,7 +87,7 @@ def get_unk_position_explanation(
 meta_prompt_v0_path = os.path.join(base_dir, 'wordle-meta-v0.md')
 meta_prompt_v0 = open(meta_prompt_v0_path, 'r').read()
 first_guess_template_v0 = """
-OK, the game starts. My first guess is "{next_word}".
+My first guess is "{next_word}".
 GUESS: {next_word}
 """
 guess_sum_last_v0 = """
@@ -96,11 +96,11 @@ The color for each letter is: {letter_colors}.
 According to the color of letters in the result, we know that: {guess_explain}.
 """
 guess_state_v0 = """
-Based on my guess history, currently we know:
+Based on my guess history, we currently know:
 We have made {num_guesses} guesses, and have {chances_remain} chances left.
 Letters at the correct position: {correct_letters}
 Letters at unknown position: {unk_positions}.
-Letters that deos not appear in the word: {unused_letters}.
+Letters that do not appear in the word: {unused_letters}.
 """
 guess_analyze_v0 = """
 Now, I need to make the {i} guess. {simple_analysis}{potential_words}Considering all the information above, my next guess would be "{next_word}".
@@ -116,13 +116,17 @@ def fill_guess_template_v0(
     letter_wrong_positions: dict,
     appreance_counts: dict,
     unused_letters: list,
-    last_guess: str = None
+    last_guess: str = None, 
+    make_guess: bool = True
 ):
 
     if last_guess is None:
         # first guess
-        guess_template = first_guess_template_v0.format(next_word=current_guess)
-        return guess_template.strip(), correct_letters, letter_wrong_positions, appreance_counts, unused_letters
+        if make_guess:
+            guess_template = "OK, the game starts. " + first_guess_template_v0.format(next_word=current_guess).strip()
+        else:
+            guess_template = "OK, the game starts."
+        return guess_template, correct_letters, letter_wrong_positions, appreance_counts, unused_letters
     
     c_letters, l_w_positions, a_counts, u_letters = analyze_response(last_guess, current_response)
     # update the guess state
@@ -159,12 +163,13 @@ def fill_guess_template_v0(
         unk_positions=unk_positions,
         unused_letters=', '.join(unused_letters)
     )
-    guess_template += guess_analyze_v0.format(
-        i=get_ordinal(attempts+1),
-        simple_analysis="",
-        potential_words="",
-        next_word=current_guess
-    )
+    if make_guess:
+        guess_template += guess_analyze_v0.format(
+            i=get_ordinal(attempts+1),
+            simple_analysis="",
+            potential_words="",
+            next_word=current_guess
+        )
 
     return guess_template.strip(), correct_letters, letter_wrong_positions, appreance_counts, unused_letters
 

@@ -7,7 +7,7 @@ export WANDB__SERVICE_WAIT=300
 export WANDB_HTTP_TIMEOUT=300
 export WANDB_INIT_TIMEOUT=600
 
-job_name=wordle-v0.1
+job_name=wordle-v0.22
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \
@@ -15,8 +15,8 @@ deepspeed train_mem.py \
     --deepspeed ./zero2.json \
     --model_name_or_path liuhaotian/llava-v1.5-7b \
     --version v1 \
-    --data_path ./data/wordle_data/train_data_v0.json \
-    --image_folder data/wordle_data/ \
+    --data_path ./data/trajectories/wordle/train/train_data_v0.json \
+    --image_folder ./data/trajectories/wordle/train/ \
     --vision_tower openai/clip-vit-large-patch14-336 \
     --mm_projector_type mlp2x_gelu \
     --mm_vision_select_layer -2 \
@@ -37,7 +37,7 @@ deepspeed train_mem.py \
     --weight_decay 0. \
     --warmup_ratio 0.1 \
     --lr_scheduler_type "cosine" \
-    --logging_steps 1 \
+    --logging_steps 5 \
     --tf32 True \
     --model_max_length 2048 \
     --gradient_checkpointing True \
