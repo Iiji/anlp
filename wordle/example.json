@@ -1,0 +1,45 @@
+{
+    "id_0": {
+        "answer": "purin", 
+        "figures": [
+            "data/wordle_data/traj_0/0.png", 
+            "data/wordle_data/traj_0/1.png", 
+            "data/wordle_data/traj_0/2.png", 
+            "data/wordle_data/traj_0/3.png", 
+            "data/wordle_data/traj_0/4.png"
+        ], 
+        "guesses": ["seora", "rutin", "curin", "purin"], 
+        "responses": ["???Y?", "YG?GG", "?GGGG", "GGGGG"], 
+        "num_attemps": 4
+    }
+}
+{
+    "id": "000000033471",
+    "image": "wordle/game/step.jpg",
+    "conversations": [
+        {
+            "from": "human",
+            "value": "Meta_Prompt"
+        },
+        {
+            "from": "human",
+            "value": "Game Start"
+        },
+        {
+            "from": "gpt",
+            "value": "{initial guess}"
+        },
+        {
+            "from": "human",
+            "value": "This is the result of your guess: <image>"
+        },
+        {
+            "from": "gpt",
+            "value": "{next guess}"
+        },
+        {
+            "from": "human",
+            "value": "Your guess is correct! You have won the game."
+        }
+    ]
+}

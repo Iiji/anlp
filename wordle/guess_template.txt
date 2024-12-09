@@ -1,0 +1,16 @@
+OK, the game starts. My first guess is "{next_word}".
+GUESS: {next_word}
+
+
+My last guess is: {guess_word}, whose letters are {A, B, C, D, E}
+The Color for each letter is: {green, yellow, gray, gray, gray}
+According to the color of letters in the result, we know that: {first letter is A, letter B appears in the word but is not the second letter, letter C does not appear in the word}
+
+Based on my guess history, currently we know:
+We have made {2} guesses, and have {4} chances left;
+letters at the correct position: {A?C??};
+letters at unknown position: {B among position 2, 3 ; E among position 3,4.};
+letters that deos not appear in the word: {F, G, H}.
+
+Now, I need to make the {i}th guess. (I still have enough chances, so I can explore more unknown letters. / I do now have many chances left, so I need to get the final answer quickly. / We can determine that, letter B appears at position 3, 5.) (Potential next guess could be: word1, word2.) Considering all the information above, my next guess would be "{next_word}".
+GUESS: {next_word}
