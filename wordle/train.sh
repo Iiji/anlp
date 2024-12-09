@@ -7,7 +7,7 @@ export WANDB__SERVICE_WAIT=300
 export WANDB_HTTP_TIMEOUT=300
 export WANDB_INIT_TIMEOUT=600
 
-job_name=wordle-v0
+job_name=wordle-v0.1
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \
@@ -35,7 +35,7 @@ deepspeed train_mem.py \
     --save_total_limit 1 \
     --learning_rate 2e-4 \
     --weight_decay 0. \
-    --warmup_ratio 0.03 \
+    --warmup_ratio 0.1 \
     --lr_scheduler_type "cosine" \
     --logging_steps 1 \
     --tf32 True \
