@@ -5,7 +5,7 @@ IFS=',' read -ra GPULIST <<< "$gpu_list"
 
 CHUNKS=${#GPULIST[@]}
 
-CKPT="llava-wordle-v0.22-lora"
+CKPT="llava-wordle-v0.31-lora"
 SPLIT="match_test"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
@@ -40,7 +40,7 @@ python wordle/eval_match.py --result_path ./data/eval/wordle/answers/$SPLIT/$CKP
 
 
 
-CKPT="llava-wordle-v0.22-lora"
+CKPT="llava-wordle-v0.31-lora"
 SPLIT="skill_test"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
