@@ -1,10 +1,10 @@
 {
     "id": "000000033471",
-    "image": "sokoban/traj_i/step.jpg",
+    "image": "traj_i/step.jpg",
     "conversations": [
         {
             "from": "human",
-            "value": "Meta_Prompt"
+            "value": "{Meta_Prompt}"
         },
         {
             "from": "human",
@@ -12,7 +12,7 @@
         },
         {
             "from": "gpt",
-            "value": "{...}{next move}"
-        },
+            "value": "{...next move}"
+        }
     ]
 }

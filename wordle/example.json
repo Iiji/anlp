@@ -21,10 +21,6 @@
         {
             "from": "gpt",
             "value": "{next guess}"
-        },
-        {
-            "from": "human",
-            "value": "Your guess is correct! You have won the game."
         }
     ]
 }
