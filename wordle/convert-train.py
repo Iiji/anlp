@@ -16,6 +16,12 @@ def get_args():
         help="json file with image paths and annotations",
     )
     parser.add_argument(
+        "--max_trajs",
+        type=int,
+        default=-1,
+        help="max number of trajectories to use",
+    )
+    parser.add_argument(
         "--response_template",
         type=str,
         default='v0',
@@ -56,6 +62,7 @@ if __name__ == '__main__':
         raise ValueError(f"Template {args.response_template} not found.")
 
     data_output = []
+    cnt = 0
     for id, trajectory in tqdm(data.items()):
         i = int(id.split('_')[1])
         answer = trajectory['answer']
@@ -108,7 +115,13 @@ if __name__ == '__main__':
                 data_output.append(sample)
         else:
             raise NotImplementedError("Not implemented yet.")
+        cnt += 1
+        if args.max_trajs > 0 and cnt >= args.max_trajs:
+            break
 
-    output_pth = os.path.join(args.data_path, f'train_data_{args.response_template}.json')
+    if args.max_trajs > 0:
+        output_pth = os.path.join(args.data_path, f'train_data_{args.response_template}_{args.max_trajs}.json')
+    else:
+        output_pth = os.path.join(args.data_path, f'train_data_{args.response_template}.json')
     with open(output_pth, 'w') as f:
         json.dump(data_output, f, indent=2)
