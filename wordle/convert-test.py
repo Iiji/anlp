@@ -26,6 +26,10 @@ def get_args():
         default=6,
     )
     parser.add_argument(
+        "--eval_skills",
+        action="store_true",
+    )
+    parser.add_argument(
         "--add_simple_thoughts",
         action="store_true",
         help="add simple human written thoughts",
@@ -75,10 +79,10 @@ if __name__ == '__main__':
                 appreance_counts=appreance_counts,
                 unused_letters=unused_letters,
                 last_guess=guesses[step-1] if step>0 else None,
-                make_guess=False
+                make_guess=not args.eval_skills
             )
             if step==0:
-                user_input = meta_prompt.strip()
+                user_input = meta_prompt.strip() + ("\n\n Now the game starts." if not args.eval_skills else "")
             else:
                 user_input = "This is the result of your guess: [image]"
             conversation.append({
@@ -86,25 +90,42 @@ if __name__ == '__main__':
                 "value": user_input
             })
             conversation.append({
-                "from": "gpt",
+                "from": "assistant",
                 "value": model_output
             })
 
-        for step in range(1, len(guesses)):
-            cur_conversation = deepcopy(conversation)[:(step+1)*2]
-            if len(cur_conversation) > 4:
-                cur_conversation = cur_conversation[:1] + cur_conversation[-3:]
-            cur_conversation[-2]["value"] = cur_conversation[-2]["value"].replace("[image]", "<image>")
-            sample_id = f"{i}_step{step}"
-            sample = {
-                "id": sample_id,
-            }
-            if step > 0:
-                sample["image"] = figures[step]
-            sample["conversations"] = cur_conversation[:-1]
-            sample["reference_answer"] = cur_conversation[-1]["value"]
-            data_output.append(sample)
+        if args.eval_skills:
+            for step in range(1, len(guesses)):
+                cur_conversation = deepcopy(conversation)[:(step+1)*2]
+                if len(cur_conversation) > 4:
+                    cur_conversation = cur_conversation[:1] + cur_conversation[-3:]
+                cur_conversation[-2]["value"] = cur_conversation[-2]["value"].replace("[image]", "<image>")
+                sample_id = f"{i}_step{step}"
+                sample = {
+                    "id": sample_id,
+                }
+                if step > 0:
+                    sample["image"] = figures[step]
+                sample["conversations"] = cur_conversation[:-1]
+                sample["reference_answer"] = cur_conversation[-1]["value"]
+                data_output.append(sample)
+        else:
+            for step in range(len(guesses)):
+                cur_conversation = deepcopy(conversation)[:(step+1)*2]
+                cur_conversation[-2]["value"] = cur_conversation[-2]["value"].replace("[image]", "<image>")
+                sample_id = f"{i}_step{step}"
+                sample = {
+                    "id": sample_id,
+                }
+                if step > 0:
+                    sample["image"] = figures[step]
+                sample["conversations"] = cur_conversation[:-1]
+                sample["reference_answer"] = cur_conversation[-1]["value"]
+                data_output.append(sample)
 
-    output_pth = os.path.join(args.data_path, f'test_data_{args.response_template}.json')
+    if args.eval_skills:
+        output_pth = os.path.join(args.data_path, f'test_skills_{args.response_template}.json')
+    else:
+        output_pth = os.path.join(args.data_path, f'test_match_{args.response_template}.json')
     with open(output_pth, 'w') as f:
         json.dump(data_output, f, indent=2)

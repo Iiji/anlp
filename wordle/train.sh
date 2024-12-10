@@ -7,7 +7,7 @@ export WANDB__SERVICE_WAIT=300
 export WANDB_HTTP_TIMEOUT=300
 export WANDB_INIT_TIMEOUT=600
 
-job_name=wordle-v0.22
+job_name=llava-wordle-v0.22-lora
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \

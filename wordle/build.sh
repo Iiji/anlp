@@ -5,4 +5,9 @@
 
 python convert-test.py \
     --data_path ../data/trajectories/wordle/test \
+    --response_template v0 \
+    --eval_skills
+
+python convert-test.py \
+    --data_path ../data/trajectories/wordle/test \
     --response_template v0
