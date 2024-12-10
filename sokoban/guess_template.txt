@@ -1,0 +1,29 @@
+(for all coordinates, x-axis is counted from left to right, y-axis is counted from top to bottom, starting from (0,0))
+
+
+From the image, we can summarize the following information:
+Player Position: {(x, y)}
+Remaining Empty Goal Position: {(x1, y1), (x2, y2)}
+Objects on the 4 directions are: 
+Left: {Wall/Empty/Box/Box on Goal/Goal}
+Right: {Wall/Empty/Box/Box on Goal/Goal}
+Top: {Wall/Empty/Box/Box on Goal/Goal}
+Bottom: {Wall/Empty/Box/Box on Goal/Goal}
+Objects on positions that are 2 cells away: 
+Left-Left: {Wall/Empty/Box/Box on Goal/Goal}
+Right-Right: {Wall/Empty/Box/Box on Goal/Goal}
+Top-Top: {Wall/Empty/Box/Box on Goal/Goal}
+Bottom-Bottom: {Wall/Empty/Box/Box on Goal/Goal}
+Top-Left: {Wall/Empty/Box/Box on Goal/Goal}
+Top-Right: {Wall/Empty/Box/Box on Goal/Goal}
+Bottom-Left: {Wall/Empty/Box/Box on Goal/Goal}
+Bottom-Right: {Wall/Empty/Box/Box on Goal/Goal}
+
+Based on the current state, this is what would happen if I try to move on the 4 directions:
+Left: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
+Right: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
+Top: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
+Bottom: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
+
+Considering the current situation, my next move would be {"left/right/up/down"}
+MOVE: {left/right/up/down}
