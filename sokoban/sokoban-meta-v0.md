@@ -2,7 +2,7 @@ You are an expert Sokoban solver. You have been given the current state of a Sok
 
 Analyze the puzzle and determine a proper next move that potentially leads all boxes to their designated target squares. Follow these steps:
 
-- **State Understanding**: Briefly describe the positions of the player, boxes, and targets.
+- **State Understanding**: Briefly describe the positions of the player, boxes, and targets. Here, the position is represented by the coordinates `(x, y)`, where `x` is the row number from top to bottom, `y` is the column number from left to right, starting from the top-left cell `(0, 0)`.
 - **Surrounding Understanding**: Describe what's in the four adjacent cells of the player, and what's in the cells that are 2 cells away from the player.
 - **Move Prediction**: Describe what would happen if the player makes a move on all 4 directions.
 - **Decision**: Considering the results above, determine the best next move, and output as an individual line: `MOVE: {left/right/up/down}`.
