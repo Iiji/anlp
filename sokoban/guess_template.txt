@@ -3,21 +3,22 @@
 
 From the image, we can summarize the following information:
 Player Position: {(x, y)}
-Remaining Empty Goal Position: {(x1, y1), (x2, y2)}
+Remaining out of place Box Position: {(x1, y1), (x2, y2)}
+Remaining Empty Target Position: {(x1, y1), (x2, y2)}
 Objects on the 4 directions are: 
-Left: {Wall/Empty/Box/Box on Goal/Goal}
-Right: {Wall/Empty/Box/Box on Goal/Goal}
-Top: {Wall/Empty/Box/Box on Goal/Goal}
-Bottom: {Wall/Empty/Box/Box on Goal/Goal}
+Left: {Wall/Empty/Box/Box on Target/Target}
+Right: {Wall/Empty/Box/Box on Target/Target}
+Top: {Wall/Empty/Box/Box on Target/Target}
+Bottom: {Wall/Empty/Box/Box on Target/Target}
 Objects on positions that are 2 cells away: 
-Left-Left: {Wall/Empty/Box/Box on Goal/Goal}
-Right-Right: {Wall/Empty/Box/Box on Goal/Goal}
-Top-Top: {Wall/Empty/Box/Box on Goal/Goal}
-Bottom-Bottom: {Wall/Empty/Box/Box on Goal/Goal}
-Top-Left: {Wall/Empty/Box/Box on Goal/Goal}
-Top-Right: {Wall/Empty/Box/Box on Goal/Goal}
-Bottom-Left: {Wall/Empty/Box/Box on Goal/Goal}
-Bottom-Right: {Wall/Empty/Box/Box on Goal/Goal}
+Left-Left: {Wall/Empty/Box/Box on Target/Target}
+Right-Right: {Wall/Empty/Box/Box on Target/Target}
+Top-Top: {Wall/Empty/Box/Box on Target/Target}
+Bottom-Bottom: {Wall/Empty/Box/Box on Target/Target}
+Top-Left: {Wall/Empty/Box/Box on Target/Target}
+Top-Right: {Wall/Empty/Box/Box on Target/Target}
+Bottom-Left: {Wall/Empty/Box/Box on Target/Target}
+Bottom-Right: {Wall/Empty/Box/Box on Target/Target}
 
 Based on the current state, this is what would happen if I try to move on the 4 directions:
 Left: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}

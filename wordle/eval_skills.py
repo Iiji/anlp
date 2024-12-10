@@ -57,8 +57,8 @@ def extract_info(answer: str):
     lines = answer.split('\n')
     lines = [line for line in lines if len(line) > 0]
 
-    try:
-        for line in lines:
+    for line in lines:
+        try:
             if "last guess is:" in line:
                 info['last_word'] = line.split(":")[1].split(",")[0].strip(" ,.").lower()
                 if "letters" in line:
@@ -116,13 +116,12 @@ def extract_info(answer: str):
             if "not appear in the word:" in line:
                 unused_letters = line.split(":")[1].upper().split(",")
                 info['unused_letters'] = [letter.strip(" ,.") for letter in unused_letters]
-    except:
-        print(answer)
-        import pdb; pdb.set_trace()
+        except:
+            print(line)
 
-    for key, value in info.items():
-        if value == empty_info[key]:
-            import pdb; pdb.set_trace()
+    # for key, value in info.items():
+    #     if value == empty_info[key]:
+    #         import pdb; pdb.set_trace()
     return info
 
 
