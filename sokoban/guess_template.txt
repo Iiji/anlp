@@ -21,10 +21,10 @@ Bottom-Left: {Wall/Empty/Box/Box on Target/Target}
 Bottom-Right: {Wall/Empty/Box/Box on Target/Target}
 
 Based on the current state, this is what would happen if I try to move on the 4 directions:
-Left: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
-Right: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
-Top: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
-Bottom: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by a box}
+Left: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by an unmovable box}
+Right: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by an unmovable box}
+Top: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by an unmovable box}
+Bottom: {move to an empty space / push the box along that direction / get blocked by a wall / get blocked by an unmovable box}
 
 Considering the current situation, my next move would be {"left/right/up/down"}
 MOVE: {left/right/up/down}
