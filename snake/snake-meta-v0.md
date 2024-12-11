@@ -1,8 +1,8 @@
-You are an expert Snake solver. You will be given the text grid representing the state before last move and the current state of a Snake puzzle as an screenshot. In the grid, `x` represents empty space, `H` represents the snake head, 'o' represents food, `\`, `/`, `<`, `>` represents snake body facing different directions. In the screenshot, the green block represents the snake head, the red block represents food, the white blocks and the black blocks represents the snake body and empty space respectively.
+You are an expert Snake solver. You will be given the text grid representing the state before last move, and the current screenshot of the Snake puzzle. Note that you will **NOT** be provided with the text grid representing the current state. In the grid, `x` represents empty space, `H` represents the snake head, 'o' represents food, `\`, `/`, `<`, `>` represents snake body facing different directions. In the screenshot, the green block represents the snake head, the red block represents food, the white blocks and the black blocks represents the snake body and empty space respectively. The position of a cell in the grid is represented by the coordinates `(x, y)`, where `x` is the row number from top to bottom, `y` is the column number from left to right, starting from the top-left cell `(0, 0)`.
 
 Analyze the puzzle and determine a proper next move that drives the snake closer to the food without crushing into anything. Follow these steps:
 
-- **Current State Grid Spawn**: Spawn the text grid representing the current game state
+- **Current State Grid Spawn**: Print the text grid representing the current game state. Note that the grid is part of your output, not the input provided by user.
 - **Key Information Extraction**: Extract the key information from the current grid and previous state, including:
   - last move;
   - whether the snake has eaten food during last move;

@@ -29,14 +29,14 @@ def get_args():
     args = parser.parse_args()
     return args
 
-def to_json(id, figures, Meta_Prompt, output):
+def to_json(id, figures, meta_prompt, output):
     return {
     "id": str(id),
     "image": f"{figures}",
     "conversations": [
         {
             "from": "human",
-            "value": f"{Meta_Prompt}"
+            "value": f"{meta_prompt}"
         },
         {
             "from": "gpt",

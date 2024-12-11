@@ -2,6 +2,8 @@ import os
 import numpy as np
 from pathlib import Path
 
+base_dir = os.path.dirname(__file__)
+
 def description(x, y, w, h, grid):
         if x < 0 or x == w or y < 0 or y == h:
             return 'at_edge'
@@ -69,7 +71,6 @@ def get_surrounding(grid, head):
 def process_file(file_path, last_length, last_move, move, isFirst):
 
     with open(file_path, 'r') as file:
-
         grid = ''
         length = 0
         head = None
@@ -91,13 +92,7 @@ def process_file(file_path, last_length, last_move, move, isFirst):
                 if char in target_characters:
                     length += 1
 
-        if isFirst:
-            eaten = 'no'
-        else:
-            if length != last_length:
-                eaten = 'yes'
-            else:
-                eaten = 'no'
+        eaten = 'no' if isFirst or length == last_length else 'yes'
 
         tail = get_tail(grid_array, head)
 
@@ -126,6 +121,8 @@ def fill_template_v0(result):
     )
     return output.strip()
 
+meta_prompt_v0_path = os.path.join(base_dir, 'snake-meta-v0.md')
+meta_prompt_v0 = open(meta_prompt_v0_path, 'r').read()
 template_v0 = """
 From the screenshot and the grid before move, we can derive the current grid:
 {grid}
@@ -144,41 +141,6 @@ Right: {right}
 Top: {top}
 Bottom: {bottom}
 
-Considering the current situation, my next move would be {move}
+Considering the current situation, my next move would be "{move}".
 MOVE: {move}
 """
-
-base_dir = os.path.dirname(__file__)
-root_folder = base_dir + '/snake_data'
-trials = ['trial_' + str(i) for i in range(500)]
-
-# extract and sort step.txt files for each trial
-cnt = 0
-for trial in trials:
-    trial_directory = root_folder + f'/{trial}'
-    txt_file_count = len(list(Path(trial_directory).rglob('*.txt')))
-    txt_files = [trial_directory + f'/step_{i}.txt' for i in range(txt_file_count-1)]
-
-    action_file = trial_directory + '/actions.txt'
-    actions = np.loadtxt(action_file, dtype=str)
-    
-    last_length = 0
-    isFirst = True
-
-    for file_idx in range(len(txt_files)):
-        file_path = txt_files[file_idx]
-        last_move = actions[file_idx]
-        if file_idx == len(txt_files)-1: # final step can't predict next, just throwing random action here
-            move = actions[file_idx]
-        else:
-            move = actions[file_idx+1]
-
-        result = process_file(file_path, last_length, last_move, move, isFirst)
-        isFirst = False
-        last_length = result[3]
-
-        result = fill_template_v0(result)
-        # Save the string to the file
-        with open(base_dir + f'/output/{cnt}.txt', 'w') as file:
-            file.write(result)
-            cnt += 1
