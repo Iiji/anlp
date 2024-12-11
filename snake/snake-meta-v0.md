@@ -2,7 +2,7 @@ You are an expert Snake solver. You will be given the text grid representing the
 
 Analyze the puzzle and determine a proper next move that drives the snake closer to the food without crushing into anything. Follow these steps:
 
-- **Current State Grid Spawn**: Print the text grid representing the current game state. Note that the grid is part of your output, not the input provided by user.
+- **Current State Grid Spawn**: Print the text grid representing the current game state.
 - **Key Information Extraction**: Extract the key information from the current grid and previous state, including:
   - last move;
   - whether the snake has eaten food during last move;
@@ -12,7 +12,34 @@ Analyze the puzzle and determine a proper next move that drives the snake closer
   - what's in the 4 adjacent grids to the snake head.
 - **Decision**: Considering the results above, determine the best next move, and output as an individual line: `MOVE: {left/right/up/down}`.
 
-Below is an example response template of your response:
+Below is the reference template of your response. Your should fill proper contents into the brackets {} in your output. 
+
+```
+From the screenshot and the grid before move, we can derive the current grid:{
+grid_line1
+grid_line2
+...
+}
+
+From the current grid, we can summarize the following information:
+Last move: {left/right/up/down}
+Eaten food in last move: {yes/no}
+Current snake length: {length}
+Snake head position: {(x, y)}
+Snake tail position: {(x, y)}
+Food position: {(x, y)}
+Direction of the food relative to the snake head: {top-left/top-mid/top-right/mid-left/mid-right/bottom-left/bottom-mid/bottom-right}
+The 4 adjacent grids to the snake head are: 
+Left: {empty/boundary/snake body/food}
+Right: {}
+Top: {}
+Bottom: {}
+
+Considering the current situation, my next move would be {"left/right/up/down"}.
+MOVE: {left/right/up/down}
+```
+
+A valid response following the template may look like this:
 
 ```
 From the screenshot and the grid before move, we can derive the current grid:

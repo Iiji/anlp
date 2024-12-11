@@ -49,7 +49,7 @@ def get_pairs(line: str):
     return pairs
 
 empty_info = {
-    "grid": [""]*12*12,
+    "grid": [],
     "last_move": "",
     "eaten_food": "",
     "snake_length": -1,
@@ -69,18 +69,18 @@ def extract_info(answer: str):
 
     for line in lines:
         try:
-            if "summarize the following information:" in line:
+            if "following information:" in line:
                 grid_flag = False
             elif grid_flag:
-                if line.startswith(" ") and line.count(" ") *2+1 >= len(line):
+                if line.count(" ") *2+1 >= len(line):
                     grid_line = line.strip().split()
                     if len(grid_line) < 12:
                         grid_line.extend([""]*(12-len(grid_line)))
-                    info["grid"].extend(grid_line)
-            elif "Last move:".lower() in line:
-                info["last_move"] = line.split(":")[-1].strip()
+                    info["grid"].extend(grid_line[:12])
             elif "Eaten food in last move:".lower() in line:
                 info["eaten_food"] = line.split(":")[-1].strip()
+            elif "Last move:".lower() in line:
+                info["last_move"] = line.split(":")[-1].strip()
             elif "snake length:".lower() in line:
                 info["snake_length"] = int(line.split(":")[-1].strip())
             elif "head position:".lower() in line:
@@ -89,13 +89,18 @@ def extract_info(answer: str):
                 info["snake_tail"] = line.split(":")[-1].strip()
             elif "food position:".lower() in line:
                 info["food_pos"] = line.split(":")[-1].strip()
-            elif line.startswith("Direction of the food relative".lower()):
+            elif "Direction of the food relative".lower() in line:
                 info["food_dir"] = line.split(":")[-1].strip()
             elif line.startswith("MOVE:".lower()):
                 info["next_move"] = line.split(":")[-1].strip()
+            elif "4 adjacent".lower() in line:
+                split_line = line.split(":")
+                if len(split_line) > 1 and split_line[1].strip() != "":
+                    adj_obj = split_line[1].strip().split(",")
+                info["adj_obj"] = [a.strip() for a in adj_obj]
             else:
                 for i, start in enumerate(adj_start):
-                    if line.startswith(start.lower()):
+                    if start.lower() in line:
                         info["adj_obj"][i] = line.split(":")[1].strip()
                         break
         except:
@@ -134,7 +139,6 @@ if __name__ == '__main__':
         reference_answer = ans['reference_answer']
         answer_info = extract_info(answer)
         reference_answer_info = extract_info(reference_answer)
-        import pdb; pdb.set_trace()
         result["grid_match"].append(get_match(answer_info["grid"], reference_answer_info["grid"]))
         result["last_move_acc"].append(answer_info["last_move"] == reference_answer_info["last_move"])
         result["eaten_food_acc"].append(answer_info["eaten_food"] == reference_answer_info["eaten_food"])

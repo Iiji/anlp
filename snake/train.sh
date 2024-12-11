@@ -7,7 +7,7 @@ export WANDB__SERVICE_WAIT=300
 export WANDB_HTTP_TIMEOUT=300
 export WANDB_INIT_TIMEOUT=600
 
-job_name=llava-snake-v0.3-lora
+job_name=llava-snake-v0.31-lora
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \

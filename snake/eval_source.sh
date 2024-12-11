@@ -11,7 +11,7 @@ SPLIT="test"
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python inference.py \
         --model-path liuhaotian/llava-v1.5-7b \
-        --question-file ./data/trajectories/snake/test/test_v0_2.json \
+        --question-file ./data/trajectories/snake/test/test_v0_10.json \
         --image-folder ./data/trajectories/snake/test/ \
         --answers-file ./data/eval/snake/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl \
         --num-chunks $CHUNKS \
@@ -32,4 +32,4 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     cat ./data/eval/snake/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl >> "$output_file"
 done
 
-# python snake/eval.py --result_path ./data/eval/snake/answers/$SPLIT/$CKPT/
+python snake/eval.py --result_path ./data/eval/snake/answers/$SPLIT/$CKPT/
