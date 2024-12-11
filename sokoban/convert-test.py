@@ -3,7 +3,7 @@ import os
 import json
 import argparse
 from tqdm import tqdm
-from response_templates import fill_template_v0, meta_prompt_v0
+from response_templates import fill_template_v0, meta_prompt_v0, meta_prompt_vllava
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -56,6 +56,9 @@ if __name__ == '__main__':
 
     if args.response_template == 'v0':
         meta_prompt = meta_prompt_v0
+        template_filling = fill_template_v0
+    elif args.response_template == 'vllava':
+        meta_prompt = meta_prompt_vllava
         template_filling = fill_template_v0
     else:
         raise ValueError(f"Template {args.response_template} not found.")

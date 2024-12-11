@@ -14,5 +14,5 @@ python convert-test.py \
 
 python convert-test.py \
     --data_path ../data/trajectories/sokoban/test \
-    --response_template v0 \
-    --max_trajs 20
+    --response_template vllava \
+    --max_trajs 50

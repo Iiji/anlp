@@ -145,3 +145,6 @@ def fill_template_v0(state, action):
         nextAction=nextAction
     )
     return output.strip()
+
+meta_prompt_vllava_path = os.path.join(base_dir, 'sokoban-meta-vllava.md')
+meta_prompt_vllava = open(meta_prompt_vllava_path, 'r').read()

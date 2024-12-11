@@ -1,0 +1,22 @@
+{
+    "id": "000000033471",
+    "image": "traj_i/step.jpg",
+    "conversations": [
+        {
+            "from": "human",
+            "value": "{Meta_Prompt}"
+        },
+        {
+            "from": "gpt",
+            "value": "OK, please provide the text grid before move and the current screenshot."
+        },
+        {
+            "from": "human",
+            "value": "This is the grid before move:\n{grid}\nThis is the current screenshot: <image>"
+        },
+        {
+            "from": "gpt",
+            "value": "{...next move}"
+        }
+    ]
+}

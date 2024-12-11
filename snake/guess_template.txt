@@ -1,0 +1,24 @@
+From the screenshot and the grid before move, we can derive the current grid:{
+ x x x x x x
+ x x \ x x x
+ x o \ x x x
+ x x \ x x x
+ x H > > > \
+ x / < < < <}
+
+From the current grid, we can summarize the following information:
+Last move: {left/right/up/down}
+Eaten food last move: {yes/no}
+Current snake length: {length}
+Snake head position: {(x, y)}
+Snake tail position: {(x, y)}
+Food position: {(x, y)}
+Direction of the food relative to the snake head: {left/right/top/bottom/top-left/top-right/bottom-left/bottom-right}
+The 4 adjacent grids to the snake head are: 
+Left: {empty/boundary/snake body/food}
+Right: {}
+Top: {}
+Bottom: {}
+
+Considering the current situation, my next move would be {"left/right/up/down"}
+MOVE: {left/right/up/down}
