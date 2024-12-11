@@ -8,12 +8,12 @@ From the screenshot and the grid before move, we can derive the current grid:{
 
 From the current grid, we can summarize the following information:
 Last move: {left/right/up/down}
-Eaten food last move: {yes/no}
+Eaten food in last move: {yes/no}
 Current snake length: {length}
 Snake head position: {(x, y)}
 Snake tail position: {(x, y)}
 Food position: {(x, y)}
-Direction of the food relative to the snake head: {left/right/top/bottom/top-left/top-right/bottom-left/bottom-right}
+Direction of the food relative to the snake head: {top-left/top-mid/top-right/mid-left/mid-right/bottom-left/bottom-mid/bottom-right}
 The 4 adjacent grids to the snake head are: 
 Left: {empty/boundary/snake body/food}
 Right: {}
