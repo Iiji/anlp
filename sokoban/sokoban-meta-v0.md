@@ -7,7 +7,7 @@ Analyze the puzzle and determine a proper next move that potentially leads all b
 - **Move Prediction**: Describe what would happen if the player makes a move on all 4 directions.
 - **Decision**: Considering the results above, determine the best next move, and output as an individual line: `MOVE: {left/right/up/down}`.
 
-Your output should follow the below format:
+Your output should follow the below format (The content in the brackets {} are replaced by proper content):
 
 ```
 From the image, we can summarize the following information:

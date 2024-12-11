@@ -163,5 +163,5 @@ if __name__ == '__main__':
         result["unknown_letters_f1"].append(get_f1(answer_info['unknown_letters'], reference_answer_info['unknown_letters']))
         result["unused_letters_f1"].append(get_f1(answer_info['unused_letters'], reference_answer_info['unused_letters']))
 
-    score = {k: sum(v) / len(v) for k, v in result.items()}
+    score = {k: sum(v) / len(v) * 100 for k, v in result.items()}
     print(json.dumps(score, indent=4))

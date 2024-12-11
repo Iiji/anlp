@@ -32,4 +32,4 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     cat ./data/eval/sokoban/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl >> "$output_file"
 done
 
-# python sokoban/eval.py --result_path ./data/eval/sokoban/answers/$SPLIT/$CKPT/
+python sokoban/eval.py --result_path ./data/eval/sokoban/answers/$SPLIT/$CKPT/

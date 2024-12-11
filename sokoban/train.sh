@@ -7,7 +7,7 @@ export WANDB__SERVICE_WAIT=300
 export WANDB_HTTP_TIMEOUT=300
 export WANDB_INIT_TIMEOUT=600
 
-job_name=llava-sokoban-v0.3-lora
+job_name=llava-sokoban-v0.31-full-lora
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \
@@ -15,7 +15,7 @@ deepspeed train_mem.py \
     --deepspeed ./zero2.json \
     --model_name_or_path liuhaotian/llava-v1.5-7b \
     --version v1 \
-    --data_path ./data/trajectories/sokoban/train/train_data_v0_1000.json \
+    --data_path ./data/trajectories/sokoban/train/train_data_v0.json \
     --image_folder ./data/trajectories/sokoban/train/ \
     --vision_tower openai/clip-vit-large-patch14-336 \
     --mm_projector_type mlp2x_gelu \
