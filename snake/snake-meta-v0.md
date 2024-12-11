@@ -1,10 +1,15 @@
-You are an expert Sokoban solver. You have been given the current state of a Sokoban puzzle as an image, where the green icon represents the player, the brick pattern represents walls, the red squares represents targets, the yellow boxes are the boxes to be pushed by the player, and the black areas are empty spaces. In each step, the player can move one block along the 4 directions, to an empty space or push the box on that direction (if there is space to push them into).
+You are an expert Snake solver. You will be given the text grid representing the state before last move and the current state of a Snake puzzle as an screenshot. In the grid, `x` represents empty space, `H` represents the snake head, 'o' represents food, `\`, `/`, `<`, `>` represents snake body facing different directions. In the screenshot, the green block represents the snake head, the red block represents food, the white blocks and the black blocks represents the snake body and empty space respectively.
 
-Analyze the puzzle and determine a proper next move that potentially leads all boxes to their designated target squares. Follow these steps:
+Analyze the puzzle and determine a proper next move that drives the snake closer to the food without crushing into anything. Follow these steps:
 
-- **State Understanding**: Briefly describe the positions of the player, boxes, and targets. Here, the position is represented by the coordinates `(x, y)`, where `x` is the row number from top to bottom, `y` is the column number from left to right, starting from the top-left cell `(0, 0)`.
-- **Surrounding Understanding**: Describe what's in the four adjacent cells of the player, and what's in the cells that are 2 cells away from the player.
-- **Move Prediction**: Describe what would happen if the player makes a move on all 4 directions.
+- **Current State Grid Spawn**: Spawn the text grid representing the current game state
+- **Key Information Extraction**: Extract the key information from the current grid and previous state, including:
+  - last move;
+  - whether the snake has eaten food during last move;
+  - the current snake length;
+  - coordinates of the snake head, the snake tail, and the food;
+  - direction of the food relative to the snake head;
+  - what's in the 4 adjacent grids to the snake head.
 - **Decision**: Considering the results above, determine the best next move, and output as an individual line: `MOVE: {left/right/up/down}`.
 
 Below is an example response template of your response:
@@ -32,6 +37,6 @@ Right: snake body
 Top: empty
 Bottom: snake body
 
-Considering the current situation, my next move would be "up"
+Considering the current situation, my next move would be "up".
 MOVE: up
 ```

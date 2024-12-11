@@ -20,5 +20,5 @@ Right: {}
 Top: {}
 Bottom: {}
 
-Considering the current situation, my next move would be {"left/right/up/down"}
+Considering the current situation, my next move would be {"left/right/up/down"}.
 MOVE: {left/right/up/down}
