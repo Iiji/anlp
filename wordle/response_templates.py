@@ -216,7 +216,7 @@ def fill_user_input_v1(
             unk_positions=unk_positions,
             unused_letters=', '.join(unused_letters)
         )
-        return f"{state}This is the result of your last guess: <image>. Please make your {get_ordinal(step+1)} guess.".strip()
+        return f"This is the result of your last guess: <image>.{state}Please make your {get_ordinal(step+1)} guess.".strip()
 
 def fill_guess_template_v1(
     current_guess: str, 

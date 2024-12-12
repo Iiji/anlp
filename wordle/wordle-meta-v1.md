@@ -59,11 +59,12 @@ For the third and later guesses:
 
 ```
 # user input
+This is the result of your last guess: [image].
 Based on the guess history, we can summarize the information below:
 Letters at the correct position: ??I??
 Letters at unknown position: letter S appears in the word 1 times, among positions 1, 2, 5.
 Letters that do not appear in the word: A, R, E.
-This is the result of your last guess: [image]. Please make your 3rd guess.
+Please make your 3rd guess.
 
 # response
 My last guess is: doits, whose letters are D, O, I, T, S.

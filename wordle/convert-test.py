@@ -5,7 +5,7 @@ from tqdm import tqdm
 from copy import deepcopy
 
 from response_templates import fill_guess_template_v0, meta_prompt_v0, meta_prompt_beta
-from response_templates import fill_guess_template_v1, fill_user_input_v1, meta_prompt_v1,  split_fs_from_meta
+from response_templates import fill_guess_template_v1, fill_user_input_v1, meta_prompt_v1, split_fs_from_meta
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         unused_letters = []
         conversation = []
         for step, guess in enumerate(guesses):
-            if args.response_template == 'v0' or args.response_template == 'beta':
+            if args.response_template in ['v0', 'beta']:
                 if step==0:
                     user_input = meta_prompt.strip() + ("\n\n Now the game starts." if not args.eval_skills else "")
                 else:
@@ -112,7 +112,7 @@ if __name__ == '__main__':
                 "value": model_output
             })
 
-        if args.response_template == 'v0' or args.response_template == 'beta':
+        if args.response_template in ['v0', 'beta']:
             if args.eval_skills:
                 for step in range(1, len(guesses)):
                     cur_conversation = deepcopy(conversation)[:(step+1)*2]
@@ -155,7 +155,7 @@ if __name__ == '__main__':
             for step in range(len(guesses)):
                 if args.split_few_shot:
                     cur_conversation = deepcopy(conversation_start)
-                    cur_conversation[0]["value"], fs_examples = split_fs_from_meta(cur_conversation[0]["value"])
+                    cur_conversation[0]["value"], fs_examples = split_fs_from_meta(meta_prompt)
                     fs_example = fs_examples[min(step,2)]
                     cur_conversation.append({
                         "from": "human",
@@ -187,11 +187,10 @@ if __name__ == '__main__':
         else:
             output_pth = os.path.join(args.data_path, f'test_match_{args.response_template}.json')
     elif args.response_template == 'v1':
-        if args.max_trajs > 0:
-            output_pth = os.path.join(args.data_path, f'test_{args.response_template}_{args.max_trajs}.json')
-        else:
-            output_pth = os.path.join(args.data_path, f'test_{args.response_template}.json')
-        if args.split_few_shot:
-            output_pth = output_pth.replace('.json', '_fs.json')
+        output_pth = os.path.join(args.data_path, f'test_{args.response_template}.json')
+    if args.max_trajs > 0:
+        output_pth = output_pth.replace('.json', f'_{args.max_trajs}.json')
+    if args.split_few_shot:
+        output_pth = output_pth.replace('.json', '_fs.json')
     with open(output_pth, 'w') as f:
         json.dump(data_output, f, indent=2)

@@ -7,7 +7,7 @@ export WANDB__SERVICE_WAIT=300
 export WANDB_HTTP_TIMEOUT=300
 export WANDB_INIT_TIMEOUT=600
 
-job_name=llava-wordle-v0.41-lora
+job_name=llava-wordle-v0.4f-lora
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \
@@ -15,7 +15,7 @@ deepspeed train_mem.py \
     --deepspeed ./zero2.json \
     --model_name_or_path liuhaotian/llava-v1.5-7b \
     --version v1 \
-    --data_path ./data/trajectories/wordle/train/train_data_v1_5000.json \
+    --data_path ./data/trajectories/wordle/train/train_data_v1_5000_fs.json \
     --image_folder ./data/trajectories/wordle/train/ \
     --vision_tower openai/clip-vit-large-patch14-336 \
     --mm_projector_type mlp2x_gelu \
@@ -46,7 +46,7 @@ deepspeed train_mem.py \
     --report_to wandb
 
 
-job_name=llava-wordle-v0.41-full-lora
+job_name=llava-wordle-v0.4f-full-lora
 export WANDB_RUN_ID=${job_name/\//\_}
 
 deepspeed train_mem.py \
@@ -54,7 +54,7 @@ deepspeed train_mem.py \
     --deepspeed ./zero2.json \
     --model_name_or_path liuhaotian/llava-v1.5-7b \
     --version v1 \
-    --data_path ./data/trajectories/wordle/train/train_data_v1.json \
+    --data_path ./data/trajectories/wordle/train/train_data_v1_fs.json \
     --image_folder ./data/trajectories/wordle/train/ \
     --vision_tower openai/clip-vit-large-patch14-336 \
     --mm_projector_type mlp2x_gelu \
