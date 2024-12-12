@@ -1,3 +1,4 @@
+from curses import meta
 import os
 import numpy as np
 from pathlib import Path
@@ -68,7 +69,7 @@ def get_surrounding(grid, head):
     
     return left, right, top, down
 
-def process_file(file_path, last_length, last_move, move, isFirst):
+def process_file(file_path, last_length, last_move, move, isFirst, version='v0'):
 
     with open(file_path, 'r') as file:
         grid = ''
@@ -98,7 +99,8 @@ def process_file(file_path, last_length, last_move, move, isFirst):
 
         food2snake = get_food2snake(food, head)
         left, right, top, bottom = get_surrounding(grid_array, head)
-
+        if version=='v2':
+            grid = grid.replace('x', '.')
 
     return [grid, last_move.lower(), eaten, length, head, tail, food, food2snake, left, right, top, bottom, move.lower()]
 
@@ -144,3 +146,10 @@ Bottom: {bottom}
 Considering the current situation, my next move would be "{move}".
 MOVE: {move}
 """
+
+meta_prompt_v1_path = os.path.join(base_dir, 'snake-meta-v1.md')
+meta_prompt_v1 = open(meta_prompt_v1_path, 'r').read()
+meta_prompt_beta_path = os.path.join(base_dir, 'snake-meta-beta.md')
+meta_prompt_beta = open(meta_prompt_beta_path, 'r').read()
+meta_prompt_v2_path = os.path.join(base_dir, 'snake-meta-v2.md')
+meta_prompt_v2 = open(meta_prompt_v2_path, 'r').read()

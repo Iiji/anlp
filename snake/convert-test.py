@@ -4,7 +4,7 @@ import json
 import argparse
 from tqdm import tqdm
 from pathlib import Path
-from response_templates import fill_template_v0, meta_prompt_v0, process_file
+from response_templates import fill_template_v0, meta_prompt_v0, meta_prompt_v1, meta_prompt_v2, meta_prompt_beta, process_file
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -58,6 +58,15 @@ if __name__ == '__main__':
     if args.response_template == 'v0':
         meta_prompt = meta_prompt_v0
         template_filling = fill_template_v0
+    elif args.response_template == 'v1':
+        meta_prompt = meta_prompt_v1
+        template_filling = fill_template_v0
+    elif args.response_template == 'v2':
+        meta_prompt = meta_prompt_v2
+        template_filling = fill_template_v0
+    elif args.response_template == 'beta':
+        meta_prompt = meta_prompt_beta
+        template_filling = fill_template_v0
     else:
         raise ValueError(f"Template {args.response_template} not found.")
 
@@ -83,9 +92,9 @@ if __name__ == '__main__':
             last_move = actions[file_idx]
             move = actions[file_idx+1]
 
-            result = process_file(file_path, last_length, last_move, move, isFirst)
+            result = process_file(file_path, last_length, last_move, move, isFirst, version=args.response_template)
             if file_idx > 0:
-                response = fill_template_v0(result)
+                response = template_filling(result)
                 t = trial.replace("_", "")
                 conversation = to_json(f"{t}_step{file_idx}", img_path, meta_prompt, last_grid)
                 conversation["reference_answer"] = response

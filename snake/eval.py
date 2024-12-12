@@ -97,7 +97,7 @@ def extract_info(answer: str):
                 split_line = line.split(":")
                 if len(split_line) > 1 and split_line[1].strip() != "":
                     adj_obj = split_line[1].strip().split(",")
-                info["adj_obj"] = [a.strip() for a in adj_obj]
+                    info["adj_obj"] = [a.strip() for a in adj_obj]
             else:
                 for i, start in enumerate(adj_start):
                     if start.lower() in line:
@@ -151,4 +151,5 @@ if __name__ == '__main__':
         result["next_move_acc"].append(answer_info["next_move"] == reference_answer_info["next_move"])
 
     score = {k: sum(v) / len(v) * 100 for k, v in result.items()}
+    score["key_position_acc"] = (score["snake_head_acc"] + score["snake_tail_acc"] + score["food_pos_acc"]) / 3
     print(json.dumps(score, indent=4))

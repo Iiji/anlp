@@ -54,9 +54,9 @@ From the current grid, we can summarize the following information:
 Last move: up
 Eaten food in last move: no
 Current snake length: 13
-Snake head position: (5, 1)
-Snake tail position: (2, 2)
-Food position: (3, 1)
+Snake head position: (4, 0)
+Snake tail position: (1, 1)
+Food position: (2, 0)
 Direction of the food relative to the snake head: top-mid
 The 4 adjacent grids to the snake head are: 
 Left: boundary
