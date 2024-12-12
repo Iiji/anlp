@@ -32,7 +32,7 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     cat ./data/eval/wordle/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl >> "$output_file"
 done
 
-python wordle/eval_skills.py --result_path ./data/eval/wordle/answers/$SPLIT/$CKPT/
+python wordle/eval_skills.py --result_path ./data/eval/wordle/answers/$SPLIT/$CKPT/ --skip_first_step
 
 
 
