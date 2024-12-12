@@ -175,5 +175,77 @@ def fill_guess_template_v0(
 
 
 
-meta_prompt_v1_path = os.path.join(base_dir, 'wordle-meta.md')
+meta_prompt_v1_path = os.path.join(base_dir, 'wordle-meta-v1.md')
 meta_prompt_v1 = open(meta_prompt_v1_path, 'r').read()
+guess_sum_last_v1 = """
+My last guess is: {guess_word}, whose letters are {guess_letters}.
+The color for each letter is: {letter_colors}.
+From the colors of letters, we know that: {guess_explain}.
+"""
+guess_state_v1 = """
+Based on the guess history, we can summarize the information below:
+Letters at the correct position: {correct_letters}
+Letters at unknown position: {unk_positions}.
+Letters that do not appear in the word: {unused_letters}.
+"""
+guess_analyze_v1 = """
+Now, I need to make the {i} guess. Considering all the information above, my next guess would be "{next_word}".
+GUESS: {next_word}
+"""
+def fill_guess_template_v1(
+    current_guess: str, 
+    current_response: str,
+    attempts: int,
+    remaining_attempts: int,
+    correct_letters: str,
+    letter_wrong_positions: dict,
+    appreance_counts: dict,
+    unused_letters: list,
+    last_guess: str = None, 
+    make_guess: bool = True
+):
+    guess_template = ""
+
+    if last_guess is not None:
+        c_letters, l_w_positions, a_counts, u_letters = analyze_response(last_guess, current_response)
+        # update the guess state
+        for i, char in enumerate(c_letters):
+            if char != '?':
+                correct_letters = correct_letters[:i] + char + correct_letters[i+1:]
+        for char, positions in l_w_positions.items():
+            letter_wrong_positions[char] = letter_wrong_positions.get(char, []) + positions
+            letter_wrong_positions[char] = list(sorted(set(letter_wrong_positions[char])))
+        for char, count in a_counts.items():
+            appreance_counts[char] = max(appreance_counts.get(char, 0), count)
+        for char in u_letters:
+            if char not in unused_letters:
+                unused_letters.append(char)
+
+        guess_letters = ", ".join(char for char in last_guess.upper())
+        letter_colors= ", ".join(get_color(current_response))
+        guess_explain = "; ".join(get_guess_explanation(last_guess, current_response,
+            correct_letters=c_letters, letter_wrong_positions=l_w_positions, 
+            appreance_counts=a_counts, unused_letters=u_letters))
+        guess_template += guess_sum_last_v1.format(
+            guess_word=last_guess.lower(),
+            guess_letters=guess_letters,
+            letter_colors=letter_colors,
+            guess_explain=guess_explain
+        )
+
+        unk_positions = "; ".join(get_unk_position_explanation(
+            correct_letters, letter_wrong_positions, appreance_counts))
+        guess_template += guess_state_v1.format(
+            num_guesses=attempts,
+            chances_remain=remaining_attempts,
+            correct_letters=correct_letters,
+            unk_positions=unk_positions,
+            unused_letters=', '.join(unused_letters)
+        )
+
+    guess_template += guess_analyze_v1.format(
+        i=get_ordinal(attempts+1),
+        next_word=current_guess
+    )
+
+    return guess_template.strip(), correct_letters, letter_wrong_positions, appreance_counts, unused_letters

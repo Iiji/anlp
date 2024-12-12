@@ -36,15 +36,6 @@ def get_args():
         action="store_true",
         help="if True, trajectory is further split into individual images",
     )
-    parser.add_argument(
-        "--add_simple_thoughts",
-        action="store_true",
-        help="add simple human written thoughts",
-    )
-    parser.add_argument(
-        "--add_potential_guesses",
-        action="store_true",
-    )
 
     args = parser.parse_args()
     return args
