@@ -1,4 +1,6 @@
 import os
+
+from platformdirs import user_cache_dir
 base_dir = os.path.dirname(__file__)
 
 def analyze_response(guess: str, response: str):
@@ -84,6 +86,8 @@ def get_unk_position_explanation(
     return explanation
 
 
+meta_prompt_beta_path = os.path.join(base_dir, 'wordle-meta-beta.md')
+meta_prompt_beta = open(meta_prompt_beta_path, 'r').read()
 meta_prompt_v0_path = os.path.join(base_dir, 'wordle-meta-v0.md')
 meta_prompt_v0 = open(meta_prompt_v0_path, 'r').read()
 first_guess_template_v0 = """
@@ -200,9 +204,9 @@ def fill_user_input_v1(
     unused_letters: list,
 ):
     if step == 0:
-        return "Now, the game starts. Please response and make your 1st guess."
+        return "Now, the game starts. Please make your 1st guess."
     elif step == 1:
-        return "This is the result of your last guess: <image>. Please response and make your 2nd guess."
+        return "This is the result of your last guess: <image>. Please make your 2nd guess."
     else:
         unk_positions = "; ".join(get_unk_position_explanation(
             correct_letters, letter_wrong_positions, appreance_counts))
@@ -212,7 +216,7 @@ def fill_user_input_v1(
             unk_positions=unk_positions,
             unused_letters=', '.join(unused_letters)
         )
-        return f"{state}This is the result of your last guess: <image>. Please response and make your {get_ordinal(step+1)} guess.".strip()
+        return f"{state}This is the result of your last guess: <image>. Please make your {get_ordinal(step+1)} guess.".strip()
 
 def fill_guess_template_v1(
     current_guess: str, 
@@ -270,3 +274,16 @@ def fill_guess_template_v1(
     )
 
     return guess_template.strip(), correct_letters, letter_wrong_positions, appreance_counts, unused_letters
+
+import re
+def split_fs_from_meta(meta: str):
+    pos = meta.find("To help you better understand, ")
+    new_meta = meta[:pos].strip()
+    code_block_pattern = r"```.*?\n(.*?)```"
+    code_blocks = re.findall(code_block_pattern, meta[pos:], re.DOTALL)
+    fs_examples = []
+    for code_block in code_blocks:
+        user_input = code_block.split("# response")[0].split("# user input")[1].strip()
+        response = code_block.split("# response")[1].strip()
+        fs_examples.append((user_input, response))
+    return new_meta, fs_examples

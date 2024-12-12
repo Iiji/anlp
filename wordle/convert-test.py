@@ -4,8 +4,8 @@ import argparse
 from tqdm import tqdm
 from copy import deepcopy
 
-from response_templates import fill_guess_template_v0, meta_prompt_v0
-from response_templates import fill_guess_template_v1, fill_user_input_v1, meta_prompt_v1
+from response_templates import fill_guess_template_v0, meta_prompt_v0, meta_prompt_beta
+from response_templates import fill_guess_template_v1, fill_user_input_v1, meta_prompt_v1,  split_fs_from_meta
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -36,6 +36,10 @@ def get_args():
         "--eval_skills",
         action="store_true",
     )
+    parser.add_argument(
+        "--split_few_shot",
+        action="store_true",
+    )
 
     args = parser.parse_args()
     return args
@@ -48,6 +52,9 @@ if __name__ == '__main__':
 
     if args.response_template == 'v0':
         meta_prompt = meta_prompt_v0
+        template_filling = fill_guess_template_v0
+    elif args.response_template == 'beta':
+        meta_prompt = meta_prompt_beta
         template_filling = fill_guess_template_v0
     elif args.response_template == 'v1':
         meta_prompt = meta_prompt_v1
@@ -71,7 +78,7 @@ if __name__ == '__main__':
         unused_letters = []
         conversation = []
         for step, guess in enumerate(guesses):
-            if args.response_template == 'v0':
+            if args.response_template == 'v0' or args.response_template == 'beta':
                 if step==0:
                     user_input = meta_prompt.strip() + ("\n\n Now the game starts." if not args.eval_skills else "")
                 else:
@@ -105,7 +112,7 @@ if __name__ == '__main__':
                 "value": model_output
             })
 
-        if args.response_template == 'v0':
+        if args.response_template == 'v0' or args.response_template == 'beta':
             if args.eval_skills:
                 for step in range(1, len(guesses)):
                     cur_conversation = deepcopy(conversation)[:(step+1)*2]
@@ -146,7 +153,21 @@ if __name__ == '__main__':
                 }
             ]
             for step in range(len(guesses)):
-                cur_conversation = conversation_start + conversation[step*2:(step+1)*2]
+                if args.split_few_shot:
+                    cur_conversation = deepcopy(conversation_start)
+                    cur_conversation[0]["value"], fs_examples = split_fs_from_meta(cur_conversation[0]["value"])
+                    fs_example = fs_examples[min(step,2)]
+                    cur_conversation.append({
+                        "from": "human",
+                        "value": fs_example[0]
+                    })
+                    cur_conversation.append({
+                        "from": "assistant",
+                        "value": fs_example[1]
+                    })
+                    cur_conversation += conversation[step*2:(step+1)*2]
+                else:
+                    cur_conversation = conversation_start + conversation[step*2:(step+1)*2]
                 sample_id = f"{i}_step{step}"
                 sample = {
                     "id": sample_id,
@@ -160,7 +181,7 @@ if __name__ == '__main__':
         if args.max_trajs > 0 and cnt >= args.max_trajs:
             break
 
-    if args.response_template == 'v0':
+    if args.response_template == 'v0' or args.response_template == 'beta':
         if args.eval_skills:
             output_pth = os.path.join(args.data_path, f'test_skills_{args.response_template}.json')
         else:
@@ -170,5 +191,7 @@ if __name__ == '__main__':
             output_pth = os.path.join(args.data_path, f'test_{args.response_template}_{args.max_trajs}.json')
         else:
             output_pth = os.path.join(args.data_path, f'test_{args.response_template}.json')
+        if args.split_few_shot:
+            output_pth = output_pth.replace('.json', '_fs.json')
     with open(output_pth, 'w') as f:
         json.dump(data_output, f, indent=2)

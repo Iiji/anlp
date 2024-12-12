@@ -9,7 +9,6 @@ The goal is to use this feedback to deduce the secret word in the fewest guesses
 You will act as the **player**, and I will act as the **judge**. You will be given feedback for your last guess in the form of an image displaying colored tiles corresponding to your guess. If your last guess is not the first guess, you will be additionally provided with a summary of letter appearances corresponding to the guess(es) before the last guess. Your task is to read the results of the last guess from the image, combine them with the information from prior guesses, and derive the next word to guess. Follow these steps:
 
 - **Last Guess Results**: Read the provided image, extract and explain the results of the last guess, including:
-
   - last guess word and its letters;
   - the color for each letter in the word;
   - explain the guess results letter by letter.
@@ -29,31 +28,31 @@ To help you better understand, I will provide some examples of the user input an
 
 ```
 # user input
-Now, the game starts. Please response and make your 1st guess.
+Now, the game starts. Please make your 1st guess.
 
 # response
-Now, I need to make the 1st guess. Considering the current situation, my next guess would be "arise".
-GUESS: arise
+Now, I need to make the 1st guess. Considering the current situation, my next guess would be "alose".
+GUESS: alose
 ```
 
 For the second guess:
 
 ```
 # user input
-This is the result of your last guess: [image]. Please response and make your 2nd guess.
+This is the result of your last guess: [image]. Please make your 2nd guess.
 
 # response
 My last guess is: arise, whose letters are A, R, I, S, E.
-The color for each letter is: Gray, Gray, Green, Yellow, Gray.
-From the colors of letters, we know that: the 3rd letter is I; letter S appears in the word but not at the 4th position; letter A does not appear in the word; letter R does not appear in the word; letter E does not appear in the word.
+The color for each letter is: Yellow, Yellow, Gray, Green, Gray.
+From the colors of letters, we know that: the 4th letter is S; letter A appears in the word but not at the 1st position; letter R appears in the word but not at the 2nd position; letter I does not appear in the word; letter E does not appear in the word.
 
 Based on the guess history, we can summarize the information below:
-Letters at the correct position: ??I??
-Letters at unknown position: letter S appears in the word 1 times, among positions 1, 2, 5.
-Letters that do not appear in the word: A, R, E.
+Letters at the correct position: ???S?
+Letters at unknown position: letter A appears in the word 1 times, among positions 2, 3, 5; letter R appears in the word 1 times, among positions 1, 3, 5.
+Letters that do not appear in the word: I, E.
 
-Now, I need to make the 2nd guess. Considering the current situation, my next guess would be "doits".
-GUESS: doits
+Now, I need to make the 2nd guess. Considering all the information above, my next guess would be "crash".
+GUESS: crash
 ```
 
 For the third and later guesses:
@@ -64,17 +63,17 @@ Based on the guess history, we can summarize the information below:
 Letters at the correct position: ??I??
 Letters at unknown position: letter S appears in the word 1 times, among positions 1, 2, 5.
 Letters that do not appear in the word: A, R, E.
-This is the result of your last guess: [image]. Please response and make your 3rd guess.
+This is the result of your last guess: [image]. Please make your 3rd guess.
 
 # response
 My last guess is: doits, whose letters are D, O, I, T, S.
-The color for each letter is: Gray, Gray, Green, Gray, Green.
-From the colors of letters, we know that: the 3rd letter is I; the 5th letter is S; letter D does not appear in the word; letter O does not appear in the word; letter T does not appear in the word.
+The color for each letter is: Gray, Yellow, Green, Gray, Green.
+From the colors of letters, we know that: the 3rd letter is I; the 5th letter is S; letter O appears in the word but not at the 2nd position; letter D does not appear in the word; letter T does not appear in the word.
 
 Based on the guess history, we can summarize the information below:
 Letters at the correct position: ??I?S
-Letters at unknown position: .
-Letters that do not appear in the word: A, R, E, D, O, T.
+Letters at unknown position: letter O appears in the word 1 times, among positions 1, 4.
+Letters that do not appear in the word: A, R, E, D, T.
 
 Now, I need to make the 3rd guess. Considering the current situation, my next guess would be "glims".
 GUESS: glims

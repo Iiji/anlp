@@ -11,7 +11,7 @@ SPLIT="test"
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python inference.py \
         --model-path liuhaotian/llava-v1.5-7b \
-        --question-file ./data/trajectories/wordle/test/test_v1.json \
+        --question-file ./data/trajectories/wordle/test/test_skills_v0.json \
         --image-folder ./data/trajectories/wordle/test/ \
         --answers-file ./data/eval/wordle/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl \
         --num-chunks $CHUNKS \
@@ -32,7 +32,7 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     cat ./data/eval/wordle/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl >> "$output_file"
 done
 
-python wordle/eval.py --result_path ./data/eval/wordle/answers/$SPLIT/$CKPT/
+python wordle/eval_skills.py --result_path ./data/eval/wordle/answers/$SPLIT/$CKPT/
 
 
 
