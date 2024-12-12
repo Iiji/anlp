@@ -192,6 +192,28 @@ guess_analyze_v1 = """
 Now, I need to make the {i} guess. Considering all the information above, my next guess would be "{next_word}".
 GUESS: {next_word}
 """
+def fill_user_input_v1(
+    step:int, 
+    correct_letters: str,
+    letter_wrong_positions: dict,
+    appreance_counts: dict,
+    unused_letters: list,
+):
+    if step == 0:
+        return "Now, the game starts. Please response and make your 1st guess."
+    elif step == 1:
+        return "This is the result of your last guess: <image>. Please response and make your 2nd guess."
+    else:
+        unk_positions = "; ".join(get_unk_position_explanation(
+            correct_letters, letter_wrong_positions, appreance_counts))
+        state = guess_state_v1.format(
+            num_guesses=step,
+            correct_letters=correct_letters,
+            unk_positions=unk_positions,
+            unused_letters=', '.join(unused_letters)
+        )
+        return f"{state}This is the result of your last guess: <image>. Please response and make your {get_ordinal(step+1)} guess.".strip()
+
 def fill_guess_template_v1(
     current_guess: str, 
     current_response: str,
@@ -237,7 +259,6 @@ def fill_guess_template_v1(
             correct_letters, letter_wrong_positions, appreance_counts))
         guess_template += guess_state_v1.format(
             num_guesses=attempts,
-            chances_remain=remaining_attempts,
             correct_letters=correct_letters,
             unk_positions=unk_positions,
             unused_letters=', '.join(unused_letters)

@@ -29,7 +29,7 @@ To help you better understand, I will provide some examples of the user input an
 
 ```
 # user input
-Now, the game starts. Please make your 1st guess.
+Now, the game starts. Please response and make your 1st guess.
 
 # response
 Now, I need to make the 1st guess. Considering the current situation, my next guess would be "arise".
@@ -40,7 +40,7 @@ For the second guess:
 
 ```
 # user input
-This is the result of your last guess: [image]. Please make your 2nd guess.
+This is the result of your last guess: [image]. Please response and make your 2nd guess.
 
 # response
 My last guess is: arise, whose letters are A, R, I, S, E.
@@ -64,7 +64,7 @@ Based on the guess history, we can summarize the information below:
 Letters at the correct position: ??I??
 Letters at unknown position: letter S appears in the word 1 times, among positions 1, 2, 5.
 Letters that do not appear in the word: A, R, E.
-This is the result of your last guess: [image]. Please make your 3rd guess.
+This is the result of your last guess: [image]. Please response and make your 3rd guess.
 
 # response
 My last guess is: doits, whose letters are D, O, I, T, S.
