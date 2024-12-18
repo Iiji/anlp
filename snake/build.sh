@@ -18,17 +18,24 @@
 #     --response_template v2 \
 #     --max_trajs 1000
 
-python convert-train.py \
-    --data_path ../data/trajectories/snake/train \
-    --response_template v2 \
-    --max_trajs 1200
-
 # python convert-test.py \
 #     --data_path ../data/trajectories/snake/test \
 #     --response_template v0 \
 #     --max_trajs 10
 
+# python convert-test.py \
+#     --data_path ../data/trajectories/snake/test \
+#     --response_template v2 \
+#     --max_trajs 10
+
+python convert-test.py \
+    --data_path ../data/trajectories/snake/test \
+    --response_template v0 \
+    --max_trajs 10 \
+    --gt_grid
+
 python convert-test.py \
     --data_path ../data/trajectories/snake/test \
     --response_template v2 \
-    --max_trajs 10
+    --max_trajs 10 \
+    --gt_grid

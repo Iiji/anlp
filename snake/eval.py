@@ -19,6 +19,10 @@ def get_args():
         "--skip_first_step",
         action="store_true",
     )
+    parser.add_argument(
+        "--gt_grid",
+        action="store_true",
+    )
 
     args = parser.parse_args()
     return args
@@ -119,17 +123,19 @@ if __name__ == '__main__':
     answer = [json.loads(line) for line in open(answer_file, 'r')]
 
     result = {
-        "next_move_acc": [],
+        "next_move": [],
         "grid_match": [],
-        "last_move_acc": [],
-        "eaten_food_acc": [],
-        "snake_length_acc": [],
-        "food_dir_acc": [],
+        "last_move": [],
+        "eaten_food": [],
+        "snake_length": [],
+        "food_dir": [],
         "adj_obj_match": [],
-        "snake_head_acc": [],
-        "snake_tail_acc": [],
-        "food_pos_acc": [],
+        "snake_head": [],
+        "snake_tail": [],
+        "food_pos": [],
     }
+    if args.gt_grid:
+        result.pop("grid_match")
     for ans in tqdm(answer):
         id = ans['question_id']
         step = id.split('_')[1]
@@ -139,17 +145,18 @@ if __name__ == '__main__':
         reference_answer = ans['reference_answer']
         answer_info = extract_info(answer)
         reference_answer_info = extract_info(reference_answer)
-        result["grid_match"].append(get_match(answer_info["grid"], reference_answer_info["grid"]))
-        result["last_move_acc"].append(answer_info["last_move"] == reference_answer_info["last_move"])
-        result["eaten_food_acc"].append(answer_info["eaten_food"] == reference_answer_info["eaten_food"])
-        result["snake_length_acc"].append(answer_info["snake_length"] == reference_answer_info["snake_length"])
-        result["snake_head_acc"].append(answer_info["snake_head"] == reference_answer_info["snake_head"])
-        result["snake_tail_acc"].append(answer_info["snake_tail"] == reference_answer_info["snake_tail"])
-        result["food_pos_acc"].append(answer_info["food_pos"] == reference_answer_info["food_pos"])
-        result["food_dir_acc"].append(answer_info["food_dir"] == reference_answer_info["food_dir"])
+        if not args.gt_grid:
+            result["grid_match"].append(get_match(answer_info["grid"], reference_answer_info["grid"]))
+        result["last_move"].append(answer_info["last_move"] == reference_answer_info["last_move"])
+        result["eaten_food"].append(answer_info["eaten_food"] == reference_answer_info["eaten_food"])
+        result["snake_length"].append(answer_info["snake_length"] == reference_answer_info["snake_length"])
+        result["snake_head"].append(answer_info["snake_head"] == reference_answer_info["snake_head"])
+        result["snake_tail"].append(answer_info["snake_tail"] == reference_answer_info["snake_tail"])
+        result["food_pos"].append(answer_info["food_pos"] == reference_answer_info["food_pos"])
+        result["food_dir"].append(answer_info["food_dir"] == reference_answer_info["food_dir"])
         result["adj_obj_match"].append(get_match(answer_info["adj_obj"], reference_answer_info["adj_obj"]))
-        result["next_move_acc"].append(answer_info["next_move"] == reference_answer_info["next_move"])
+        result["next_move"].append(answer_info["next_move"] == reference_answer_info["next_move"])
 
     score = {k: sum(v) / len(v) * 100 for k, v in result.items()}
-    score["key_position_acc"] = (score["snake_head_acc"] + score["snake_tail_acc"] + score["food_pos_acc"]) / 3
+    score["key_position"] = (score["snake_head"] + score["snake_tail"] + score["food_pos"]) / 3
     print(json.dumps(score, indent=4))

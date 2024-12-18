@@ -26,6 +26,10 @@ def get_args():
         type=str,
         default='v0',
     )
+    parser.add_argument(
+        "--gt_grid",
+        action="store_true",
+    )
 
     args = parser.parse_args()
     return args
@@ -97,6 +101,15 @@ if __name__ == '__main__':
                 response = template_filling(result)
                 t = trial.replace("_", "")
                 conversation = to_json(f"{t}_step{file_idx}", img_path, meta_prompt, last_grid)
+                if args.gt_grid:
+                    grid_pos = response.find("From the current grid, we can summarize")
+                    if grid_pos == -1:
+                        import pdb; pdb.set_trace()
+                    conversation["conversations"].append({
+                        "from": "assistant",
+                        "value": response[:grid_pos]
+                    })
+                    response = response[grid_pos:]
                 conversation["reference_answer"] = response
                 data_output.append(conversation)
 
@@ -104,9 +117,10 @@ if __name__ == '__main__':
             last_length = result[3]
             last_grid = result[0]
 
+    output_pth = os.path.join(args.data_path, f'test_{args.response_template}.json')
     if args.max_trajs > 0:
-        output_pth = os.path.join(args.data_path, f'test_{args.response_template}_{args.max_trajs}.json')
-    else:
-        output_pth = os.path.join(args.data_path, f'test_{args.response_template}.json')
+        output_pth = output_pth.replace('.json', f'_{args.max_trajs}.json')
+    if args.gt_grid:
+        output_pth = output_pth.replace('.json', '_grid.json')
     with open(output_pth, 'w') as f:
         json.dump(data_output, f, indent=2)

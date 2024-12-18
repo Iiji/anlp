@@ -56,7 +56,8 @@ class CustomDataset(Dataset):
                 text = text.replace(replace_token, DEFAULT_IMAGE_TOKEN)
             conv.append_message(get_role(role,conv.roles), text)
 
-        conv.append_message(conv.roles[1], None)
+        if conv.messages[-1][0] != conv.roles[1]:
+            conv.append_message(conv.roles[1], None)
         prompt = conv.get_prompt()
 
         if image_file is not None:
