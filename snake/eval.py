@@ -119,16 +119,16 @@ if __name__ == '__main__':
     answer = [json.loads(line) for line in open(answer_file, 'r')]
 
     result = {
+        "next_move_acc": [],
         "grid_match": [],
         "last_move_acc": [],
         "eaten_food_acc": [],
         "snake_length_acc": [],
+        "food_dir_acc": [],
+        "adj_obj_match": [],
         "snake_head_acc": [],
         "snake_tail_acc": [],
         "food_pos_acc": [],
-        "food_dir_acc": [],
-        "adj_obj_match": [],
-        "next_move_acc": [],
     }
     for ans in tqdm(answer):
         id = ans['question_id']

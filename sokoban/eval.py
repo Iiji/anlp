@@ -113,13 +113,13 @@ if __name__ == '__main__':
     answer = [json.loads(line) for line in open(answer_file, 'r')]
 
     result = {
+        "next_move": [],
         "player_position_acc": [],
         "remain_box_f1": [],
         "remain_target_f1": [],
-        "obj_dist1_match": [],
-        "obj_dist2_match": [],
-        "move_pred_match": [],
-        "move_acc": []
+        "adjacent_obj": [],
+        "2_adjacent_obj": [],
+        "action_result_pred": [],
     }
     for ans in tqdm(answer):
         id = ans['question_id']
@@ -130,13 +130,13 @@ if __name__ == '__main__':
         reference_answer = ans['reference_answer']
         answer_info = extract_info(answer)
         reference_answer_info = extract_info(reference_answer)
+        result["next_move"].append(answer_info["move"] == reference_answer_info["move"])
         result["player_position_acc"].append(answer_info["player_position"] == reference_answer_info["player_position"])
         result["remain_box_f1"].append(get_f1(answer_info["remain_box"], reference_answer_info["remain_box"]))
         result["remain_target_f1"].append(get_f1(answer_info["remain_target"], reference_answer_info["remain_target"]))
-        result["obj_dist1_match"].append(get_match(answer_info["obj_dist1"], reference_answer_info["obj_dist1"]))
-        result["obj_dist2_match"].append(get_match(answer_info["obj_dist2"], reference_answer_info["obj_dist2"]))
-        result["move_pred_match"].append(get_match(answer_info["move_pred"], reference_answer_info["move_pred"]))
-        result["move_acc"].append(answer_info["move"] == reference_answer_info["move"])
+        result["adjacent_obj"].append(get_match(answer_info["obj_dist1"], reference_answer_info["obj_dist1"]))
+        result["2_adjacent_obj"].append(get_match(answer_info["obj_dist2"], reference_answer_info["obj_dist2"]))
+        result["action_result_pred"].append(get_match(answer_info["move_pred"], reference_answer_info["move_pred"]))
 
     score = {k: sum(v) / len(v) * 100 for k, v in result.items()}
     print(json.dumps(score, indent=4))

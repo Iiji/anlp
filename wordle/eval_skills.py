@@ -134,15 +134,15 @@ if __name__ == '__main__':
     answer = [json.loads(line) for line in open(answer_file, 'r')]
 
     result = {
-        "last_word_acc": [],
-        "word_letter_match": [],
-        "color_match": [],
+        "last_word": [],
+        "last_word_letter": [],
+        "color": [],
         "feedback_f1": [],
-        "attempts_made_acc": [],
-        "chances_remaining_acc": [],
-        "correct_letters_match": [],
+        "correct_letters": [],
         "unknown_letters_f1": [],
-        "unused_letters_f1": []
+        "unused_letters_f1": [],
+        "attempts_made": [],
+        "chances_remaining": [],
     }
     for ans in tqdm(answer):
         id = ans['question_id']
@@ -153,15 +153,15 @@ if __name__ == '__main__':
         reference_answer = ans['reference_answer']
         answer_info = extract_info(answer)
         reference_answer_info = extract_info(reference_answer)
-        result["last_word_acc"].append(answer_info['last_word'] == reference_answer_info['last_word'])
-        result["word_letter_match"].append(get_match(answer_info['word_letters'], reference_answer_info['word_letters']))
-        result["color_match"].append(get_match(answer_info['colors'], reference_answer_info['colors']))
+        result["last_word"].append(answer_info['last_word'] == reference_answer_info['last_word'])
+        result["last_word_letter"].append(get_match(answer_info['word_letters'], reference_answer_info['word_letters']))
+        result["color"].append(get_match(answer_info['colors'], reference_answer_info['colors']))
         result["feedback_f1"].append(get_f1(answer_info['feedback'], reference_answer_info['feedback']))
-        result["attempts_made_acc"].append(answer_info['attempts_made'] == reference_answer_info['attempts_made'])
-        result["chances_remaining_acc"].append(answer_info['chances_remaining'] == reference_answer_info['chances_remaining'])
-        result["correct_letters_match"].append(get_match(answer_info['correct_letters'], reference_answer_info['correct_letters']))
+        result["correct_letters"].append(get_match(answer_info['correct_letters'], reference_answer_info['correct_letters']))
         result["unknown_letters_f1"].append(get_f1(answer_info['unknown_letters'], reference_answer_info['unknown_letters']))
         result["unused_letters_f1"].append(get_f1(answer_info['unused_letters'], reference_answer_info['unused_letters']))
+        result["attempts_made"].append(answer_info['attempts_made'] == reference_answer_info['attempts_made'])
+        result["chances_remaining"].append(answer_info['chances_remaining'] == reference_answer_info['chances_remaining'])
 
     score = {k: sum(v) / len(v) * 100 for k, v in result.items()}
     print(json.dumps(score, indent=4))
