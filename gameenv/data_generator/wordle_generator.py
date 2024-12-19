@@ -18,7 +18,7 @@ SAVE_PATH = 'trajectories/wordle_play'
 os.makedirs(SAVE_PATH, exist_ok=True)
 env = WordleEnv(word_list=CANDIDATE_WORDS, max_attempts=6)
 all_trajs = {}
-np.random.seed(114514)
+np.random.seed(439230)
 for i in range(NUM_TRAJS):
     observation = env.reset()
     img = env.render(mode="RGB")

@@ -4,17 +4,24 @@ from collections import Counter
 from itertools import chain
 import operator
 import random
+import os
 
 ALLOWED_ATTEMPTS = 6
 WORD_LENGTH = 5
 
 ALLOWABLE_CHARACTERS = set(string.ascii_lowercase)
-DICT = "data/words_alpha.txt"
+DICT = os.path.join(os.path.dirname(__file__),"../data/words_alpha.txt")
+DICT_STANDARD = os.path.join(os.path.dirname(__file__),"../data/wordle-allowed-guesses.txt")
 
 # get word with required length and characters
 WORDS = {
     word.lower()
     for word in Path(DICT).read_text().splitlines()
+    if len(word) == WORD_LENGTH and set(word) < ALLOWABLE_CHARACTERS
+}
+WORDS_STANDARD = {
+    word.lower()
+    for word in Path(DICT_STANDARD).read_text().splitlines()
     if len(word) == WORD_LENGTH and set(word) < ALLOWABLE_CHARACTERS
 }
 

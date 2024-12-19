@@ -218,6 +218,20 @@ def fill_user_input_v1(
         )
         return f"This is the result of your last guess: <image>.{state}Please make your {get_ordinal(step+1)} guess.".strip()
 
+def fill_user_input_v1_from_response(
+    step:int, 
+    response: str,
+):
+    if step == 0:
+        return "Now, the game starts. Please make your 1st guess."
+    elif step == 1:
+        return "This is the result of your last guess: <image>. Please make your 2nd guess."
+    else:
+        state_start = response.find("Based on the guess history,")
+        state_end = response.find("Now, I need to make")
+        state = response[state_start:state_end].strip()
+        return f"This is the result of your last guess: <image>.\n{state}\nPlease make your {get_ordinal(step+1)} guess.".strip()
+
 def fill_guess_template_v1(
     current_guess: str, 
     current_response: str,
