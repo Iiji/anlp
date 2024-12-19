@@ -9,23 +9,14 @@ python convert-train.py \
     --max_trajs 5000 \
     --split_few_shot
 
-# python convert-test.py \
-#     --data_path ../data/trajectories/wordle/test \
-#     --response_template v0 \
-#     --eval_skills
+python convert-test.py \
+    --data_path ../data/trajectories/wordle/test \
+    --response_template v0 \
+    --eval_skills
 
-# python convert-test.py \
-#     --data_path ../data/trajectories/wordle/test \
-#     --response_template beta \
-#     --eval_skills
-
-# python convert-test.py \
-#     --data_path ../data/trajectories/wordle/test \
-#     --response_template v0
-
-# python convert-test.py \
-#     --data_path ../data/trajectories/wordle/test \
-#     --response_template beta
+python convert-test.py \
+    --data_path ../data/trajectories/wordle/test \
+    --response_template v0
 
 # python convert-test.py \
 #     --data_path ../data/trajectories/wordle/test \
