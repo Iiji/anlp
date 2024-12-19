@@ -31,7 +31,7 @@ class WordleConverter(BaseConverter):
     def prepare_user_input(self):
         if self.version in ['v0', 'beta']:
             if self.step==0:
-                user_input = self.meta_prompt.strip() + ("\n\n Now the game starts." if not self.eval_skills else "")
+                user_input = self.meta_prompt.strip() + "\n\n Now the game starts."
             else:
                 user_input = "This is the result of your guess: [image]"
         elif self.version == 'v1':
@@ -139,6 +139,10 @@ def get_args():
         action="store_true",
     )
     parser.add_argument(
+        "--random_guess",
+        action="store_true",
+    )
+    parser.add_argument(
         "--num_max_guesses",
         type=int,
         default=6,
@@ -186,7 +190,7 @@ def find_replacement(word:str, CANDIDATE_WORDS:list):
         return np.random.choice(overlap_n1)
     return None
 
-def get_score(feedback:str):
+def get_score(feedback:str) -> int:
     score = 0
     for letter in feedback:
         if letter == 'G':
@@ -208,16 +212,17 @@ if __name__ == "__main__":
         num_max_guesses=args.num_max_guesses, 
         split_few_shot=args.split_few_shot
     )
-    agent = VLMAgent(
-        converter=converter, 
-        model_path=args.model_path, 
-        model_base=args.model_base,
-        conv_mode=args.conv_mode,
-        temperature=args.temperature,
-        top_p=args.top_p,
-        num_beams=args.num_beams,
-        max_new_tokens=args.max_new_tokens,
-    )
+    if not args.random_guess:
+        agent = VLMAgent(
+            converter=converter, 
+            model_path=args.model_path, 
+            model_base=args.model_base,
+            conv_mode=args.conv_mode,
+            temperature=args.temperature,
+            top_p=args.top_p,
+            num_beams=args.num_beams,
+            max_new_tokens=args.max_new_tokens,
+        )
     all_games = {}
     set_seed(114514)
     for i in tqdm(range(NUM_GAMES)):
@@ -227,12 +232,12 @@ if __name__ == "__main__":
         img_path = f"{SAVE_PATH}/game_{i}/0.png"
         img.save(img_path)
         answer = env.target_word
-
-        agent.reset()
+        if not args.random_guess:
+            agent.reset()
         game_data = {'answer': answer,
-                    'figures': [f"{SAVE_PATH}/game_{i}/0.png"],}
+                    'figures': [img_path],}
         for j in range(1, 1+env.max_attempts):
-            action = agent.take_action(img=img_path)
+            action = agent.take_action(img=img_path) if not args.random_guess else np.random.choice(CANDIDATE_WORDS)
             if action not in CANDIDATE_WORDS:
                 print(f"Invalid guess: {action}, ", end="")
                 replacement = find_replacement(action, CANDIDATE_WORDS)
@@ -267,9 +272,6 @@ if __name__ == "__main__":
 
     # save as json file
     import json
-    done_rate = sum([game['done'] for game in all_games.values()]) / NUM_GAMES * 100
-    print(f"Done rate: {done_rate:.2f}%")
-    all_games['done_rate'] = done_rate
     score_distribution = [game['score'] for game in all_games.values()]
     score_distribution = {score: score_distribution.count(score) for score in sorted(set(score_distribution))}
     print(f"Score distribution: {score_distribution}")
